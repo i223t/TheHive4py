@@ -162,6 +162,8 @@ class CaseHelper:
         if self.status_ok(response.status_code):
             data = response.json()
             case = Case(json=data)
+            # Allow the Case to make calls to the API itself
+            case._thehive = self._thehive
 
             return case
 
