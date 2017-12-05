@@ -116,6 +116,21 @@ class Case(JSONSerializable):
             else:
                 self.tasks.append(CaseTask(json=task))
 
+    @property
+    def tasks(self):
+        # Refresh tasks from server
+        if self._thehive:
+            res = self._thehive.get_case_tasks(self.id)
+            # Assume it works for now
+            tasks = res.json()
+            for task in tasks:
+                self._tasks.append(CaseTask(json=task))
+        return self._tasks
+
+    @tasks.setter
+    def tasks(self, tasks):
+        self._tasks = tasks
+
 
 class CaseHelper:
     """
